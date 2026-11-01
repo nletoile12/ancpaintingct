@@ -499,8 +499,8 @@ def build_service(slug, title, blurb, bullets):
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
 {interior_ba()}
-        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {bedroom_ba() if slug == "interior-painting" else ""}
+        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
       </div>
