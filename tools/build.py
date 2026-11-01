@@ -270,6 +270,15 @@ def interior_ba():
         <p class="ba-caption">Our own living room: dated orange walls and stained trim, patched and smoothed, then finished in a soft blue with the trim painted white. We hold your home to the same standard as ours.</p>
 """
 
+def bedroom_ba():
+    return """        <h3 style="margin-top:36px">Bedroom: walls, trim and closet doors</h3>
+        <div class="ba">
+          <figure><img src="/assets/bedroom-before.jpg" alt="Bedroom before painting with beige walls and dark stained closet trim" loading="lazy" width="1400" height="1050"><figcaption>Before</figcaption></figure>
+          <figure class="after"><img src="/assets/bedroom-after.jpg" alt="Same bedroom after painting with periwinkle blue walls and bright white trim and closet doors" loading="lazy" width="1400" height="1050"><figcaption>After</figcaption></figure>
+        </div>
+        <p class="ba-caption">Beige walls and dark stained trim, finished in a soft periwinkle with every door frame, closet and baseboard painted bright white.</p>
+"""
+
 GALLERY = [
   ("blackledge-golf-shop.jpg", "Golf shop at Blackledge Country Club in Hebron CT after exterior painting"),
   ("blackledge-gable.jpg", "Tall gable wall and window trim repainted at Blackledge Country Club, Hebron CT"),
@@ -491,6 +500,7 @@ def build_service(slug, title, blurb, bullets):
         <h2>Before &amp; after</h2>
 {interior_ba()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
+{bedroom_ba() if slug == "interior-painting" else ""}
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
       </div>
