@@ -57,7 +57,7 @@ SERVICES = [
   ("exterior-painting", "Exterior Painting", "Scraping, priming and painting built to hold up through New England winters.",
    ["Siding, trim, doors, shutters and porches", "Washing, scraping and sanding loose paint", "Caulking gaps and priming bare wood", "Benjamin Moore exterior paint", "Landscaping and walkways protected while we work"]),
   ("cabinet-refinishing", "Cabinet Refinishing", "A kitchen that looks brand new for a fraction of the cost of new cabinets.",
-   ["Kitchen and bathroom cabinets, vanities and built-ins", "Cleaning and degreasing so the finish actually sticks", "Sanding and priming for a smooth, durable base", "A hard-wearing cabinet finish in the color you choose", "Your kitchen protected and kept usable as much as possible"]),
+   ["Kitchen and bathroom cabinets, islands, vanities and built-ins", "Cleaning and degreasing so the finish actually sticks", "Sanding and priming for a smooth, durable base", "Doors sprayed in a sealed booth for a smooth, factory-like finish", "Your kitchen protected and kept usable as much as possible"]),
 ]
 
 esc = html.escape
@@ -279,6 +279,22 @@ def bedroom_ba():
         <p class="ba-caption">Beige walls and dark stained trim, finished in a soft periwinkle with every door frame, closet and baseboard painted bright white.</p>
 """
 
+def cabinet_process():
+    items = [("cabinet-spray-booth.jpg","1 · Booth","A sealed plastic spray booth set up in a customer's garage with the floor fully covered"),
+             ("cabinet-doors-sprayed.jpg","2 · Spray","Kitchen cabinet doors freshly sprayed in a smooth gray finish, laid flat to cure"),
+             ("cabinet-finished-closeup.jpg","3 · Finish","Close-up of finished gray cabinet doors and drawers with the original knobs reinstalled")]
+    figs = "\n".join(f'          <figure class="{"after" if l.endswith("Finish") else ""}"><img src="/assets/{f}" alt="{esc(a)}" loading="lazy" width="1400" height="1050"><figcaption>{l}</figcaption></figure>' for f, l, a in items)
+    return f"""        <h3>How we refinish cabinets</h3>
+        <div class="ba ba-3">
+{figs}
+        </div>
+        <p class="ba-caption">Doors come off and get sprayed in a sealed booth we set up on site, so you get a smooth, factory-like finish with no brush marks and no dust in your house.</p>
+        <div class="ba" style="grid-template-columns:1fr;max-width:820px">
+          <figure class="after"><img src="/assets/cabinet-island-finished.jpg" alt="Kitchen island refinished in dark gray next to the original oak cabinets" loading="lazy" width="1400" height="1050"><figcaption>Before &amp; after in one shot</figcaption></figure>
+        </div>
+        <p class="ba-caption">The island, refinished in a deep gray. The oak cabinets on the left are what it looked like before.</p>
+"""
+
 GALLERY = [
   ("blackledge-golf-shop.jpg", "Golf shop at Blackledge Country Club in Hebron CT after exterior painting"),
   ("blackledge-gable.jpg", "Tall gable wall and window trim repainted at Blackledge Country Club, Hebron CT"),
@@ -498,7 +514,7 @@ def build_service(slug, title, blurb, bullets):
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
-{interior_ba()}
+{cabinet_process() if slug == "cabinet-refinishing" else interior_ba()}
 {bedroom_ba() if slug == "interior-painting" else ""}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
