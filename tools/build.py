@@ -303,10 +303,11 @@ def photo_grid(items, title=""):
 RECENT = [
   ("kitchen-dark-cabinets.jpg", "Kitchen cabinets refinished", "Full kitchen of cabinets refinished in a deep charcoal with an island"),
   ("loft-green-shiplap.jpg", "Loft & shiplap fireplace wall", "Loft with a green accent wall and shiplap fireplace surround, white trim"),
-  ("kitchen-white-cabinets.jpg", "White kitchen refresh", "Kitchen cabinets and island painted a clean white"),
+  ("oak-kitchen-after.jpg", "Oak cabinets painted white", "Former oak kitchen cabinets painted a clean white"),
 ]
 KITCHENS = [
   ("kitchen-dark-cabinets.jpg", "Charcoal kitchen", "Full kitchen of cabinets refinished in a deep charcoal"),
+  ("oak-kitchen-island.jpg", "Island detail", "Close-up of a white painted kitchen island with crisp trim"),
   ("kitchen-dark-closeup.jpg", "Smooth sprayed finish", "Close-up of a smooth sprayed finish on charcoal cabinet doors and drawers"),
   ("kitchen-white-cabinets.jpg", "White kitchen", "Kitchen cabinets and peninsula painted white"),
   ("kitchen-white-wide.jpg", "White kitchen, full view", "Wide view of white painted kitchen cabinets, pantry and uppers"),
@@ -327,6 +328,18 @@ def door_video():
             <a href="#quoteFormWrap" class="btn btn-ghost">Get a door quote</a>
           </div>
         </div>
+"""
+
+def oak_kitchen():
+    items = [("oak-kitchen-before.jpg","Before","Oak kitchen cabinets masked off with plastic and tape before painting"),
+             ("oak-kitchen-prep.jpg","Primed","Same kitchen fully sealed in plastic with cabinet frames primed white"),
+             ("oak-kitchen-after.jpg","After","Same kitchen finished with bright white cabinets and island")]
+    figs = "\n".join(f'          <figure class="{"after" if l=="After" else ""}"><img src="/assets/{f}" alt="{esc(a)}" loading="lazy" width="1400" height="1050"><figcaption>{l}</figcaption></figure>' for f, l, a in items)
+    return f"""        <h3>Start to finish: oak to white</h3>
+        <div class="ba ba-3">
+{figs}
+        </div>
+        <p class="ba-caption">Dated oak cabinets, fully masked so nothing else gets touched, primed, then finished in a clean white. Same kitchen, no remodel.</p>
 """
 
 GALLERY = [
@@ -550,7 +563,7 @@ def build_service(slug, title, blurb, bullets):
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
-{cabinet_process() if slug == "cabinet-refinishing" else interior_ba()}
+{(oak_kitchen() + cabinet_process()) if slug == "cabinet-refinishing" else interior_ba()}
 {bedroom_ba() if slug == "interior-painting" else ""}
 {photo_grid(INTERIOR_MORE, "More interior work") if slug == "interior-painting" else ""}
 {photo_grid(KITCHENS, "Finished kitchens") if slug == "cabinet-refinishing" else ""}
