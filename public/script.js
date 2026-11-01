@@ -152,3 +152,51 @@
     }
   });
 })();
+
+// Tap a photo to see it full screen; swipe or use arrows to browse
+(function () {
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('main img'));
+  if (!imgs.length) return;
+  var box = document.createElement('div');
+  box.className = 'lb';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-label', 'Photo viewer');
+  box.innerHTML = '<button class="lb-close" aria-label="Close">&times;</button>' +
+    '<button class="lb-prev" aria-label="Previous photo">&#8249;</button>' +
+    '<img class="lb-img" alt="">' +
+    '<button class="lb-next" aria-label="Next photo">&#8250;</button>' +
+    '<p class="lb-cap"></p>';
+  document.body.appendChild(box);
+  var big = box.querySelector('.lb-img'), cap = box.querySelector('.lb-cap'), i = 0;
+  function show(n) {
+    i = (n + imgs.length) % imgs.length;
+    big.src = imgs[i].currentSrc || imgs[i].src;
+    big.alt = imgs[i].alt || '';
+    var fig = imgs[i].closest('figure');
+    var fc = fig && fig.querySelector('figcaption');
+    cap.textContent = fc ? fc.textContent : '';
+  }
+  function open(n) { show(n); box.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function close() { box.classList.remove('open'); document.body.style.overflow = ''; }
+  imgs.forEach(function (im, n) {
+    im.classList.add('zoomable');
+    im.addEventListener('click', function () { open(n); });
+  });
+  box.querySelector('.lb-close').addEventListener('click', close);
+  box.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); show(i - 1); });
+  box.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); show(i + 1); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(i - 1);
+    if (e.key === 'ArrowRight') show(i + 1);
+  });
+  var x0 = null;
+  box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+  });
+})();
