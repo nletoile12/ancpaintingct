@@ -358,7 +358,6 @@ GALLERY = [
   ("blackledge-tavern.jpg", "Blackledge River Tavern exterior after painting, Hebron CT"),
   ("blackledge-patio.jpg", "Clubhouse patio side after exterior painting at Blackledge Country Club"),
   ("blackledge-deck.jpg", "Clubhouse siding and trim after painting, Blackledge Country Club"),
-  ("blackledge-side.jpg", "Vertical wood siding repainted on the clubhouse at Blackledge Country Club"),
 ]
 def gallery():
     figs = "\n".join(f'          <figure><img src="/assets/{f}" alt="{esc(a)}" loading="lazy" width="1400" height="1050"></figure>' for f, a in GALLERY)
