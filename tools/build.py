@@ -133,9 +133,10 @@ def header():
         <a class="nav-link" href="/interior-painting/">Interior</a>
         <a class="nav-link" href="/exterior-painting/">Exterior</a>
         <a class="nav-link" href="/cabinet-refinishing/">Cabinets</a>
+        <a class="nav-link" href="/#work">Our Work</a>
         <a class="nav-link" href="/about/">About</a>
-        <a class="nav-link" href="tel:{PHONE}">{PHONE_DISPLAY}</a>
-        <a class="btn btn-sm" href="#quoteFormWrap">Free Quote</a>
+        <a class="nav-phone" href="tel:{PHONE}">{PHONE_DISPLAY}</a>
+        <a class="btn btn-sm nav-quote" href="#quoteFormWrap">Free Quote</a>
       </nav>
     </div>
   </header>
@@ -185,6 +186,22 @@ def town_options(selected=""):
         opts.append(f'<option{sel}>{t[0]}</option>')
     opts.append('<option>Other town</option>')
     return "".join(opts)
+
+def hero_photo(img, alt):
+    return f"""        <figure class="hero-photo"><img src="/assets/{img}" alt="{alt}" width="1200" height="900" fetchpriority="high"></figure>"""
+
+def quote_section(form, title="Get a free quote"):
+    return f"""    <section class="section quote-section" id="quote">
+      <div class="container quote-inner">
+        <div class="quote-copy">
+          <p class="eyebrow">Free quote</p>
+          <h2>Like what you see?</h2>
+          <p class="muted">Tell us a little about the job. We'll text you two times that work for a quick, no-pressure look, and you'll get a clear written quote.</p>
+          <p class="muted">Rather text? <a href="sms:{PHONE}">{PHONE_DISPLAY}</a></p>
+        </div>
+{form}
+      </div>
+    </section>"""
 
 def quote_form(page_label, town="", service=""):
     svc_opts = "".join(f'<option{" selected" if s[1]==service else ""}>{s[1]}</option>' for s in SERVICES)
@@ -457,7 +474,7 @@ def build_home():
           <p class="tagline">Interior, exterior and cabinet painting by a local, family-owned crew. We show up when we say, protect your home, do it right, and leave it spotless.</p>
           <div class="hero-actions">
             <a href="#quoteFormWrap" class="btn btn-lg">Get My Free Quote</a>
-            <a href="sms:{PHONE}" class="btn btn-lg btn-ghost">Text {PHONE_DISPLAY}</a>
+            <a href="#work" class="btn btn-lg btn-ghost">See Our Work</a>
           </div>
           <ul class="trust">
             <li>Free, no-pressure quotes</li>
@@ -465,18 +482,10 @@ def build_home():
             <li>CT HIC # {HIC_TEXT}</li>
           </ul>
         </div>
-{quote_form("Homepage")}
+{hero_photo("house-blue-front.jpg", "Connecticut colonial repainted blue with white trim by ANC Painting")}
       </div>
     </section>
-{trust_bar()}
-    <section class="section">
-      <div class="container">
-        <p class="eyebrow">What we paint</p>
-        <h2>Inside, outside, and the kitchen</h2>
-{services_cards()}
-      </div>
-    </section>
-    <section class="section bg-paper">
+    <section class="section bg-paper" id="work">
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
@@ -487,6 +496,15 @@ def build_home():
 {before_after()}
 {gallery()}
 {door_video()}
+      </div>
+    </section>
+{quote_section(quote_form("Homepage"))}
+{trust_bar()}
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">What we paint</p>
+        <h2>Inside, outside, and the kitchen</h2>
+{services_cards()}
       </div>
     </section>
     <section class="section">
@@ -537,6 +555,11 @@ SERVICE_FAQ = {
   "cabinet-refinishing": [("Is painting cabinets cheaper than replacing them?", "Usually by a wide margin. If your cabinet boxes are in good shape, refinishing gives you a new look without the cost and mess of a remodel."),
                           ("Can I still use my kitchen?", "Mostly, yes. We'll walk you through the schedule so you know which days the kitchen will be busy.")],
 }
+HERO_IMG = {
+  "interior-painting": ("living-room-after.jpg", "Living room freshly painted by ANC Painting"),
+  "exterior-painting": ("house-blue-front.jpg", "Connecticut colonial repainted blue with white trim"),
+  "cabinet-refinishing": ("oak-kitchen-after.jpg", "Oak kitchen cabinets refinished in white"),
+}
 def build_service(slug, title, blurb, bullets):
     h = head(f"{title} in the Hartford & New Britain Area CT | ANC Painting",
              f"{title} by ANC Painting, a family-owned painter based in Coventry, CT. {blurb} Free, no-pressure quotes across the greater Hartford area.", f"/{slug}/")
@@ -558,18 +581,10 @@ def build_service(slug, title, blurb, bullets):
             <li>CT HIC # {HIC_TEXT}</li>
           </ul>
         </div>
-{quote_form(title, service=title)}
+{hero_photo(HERO_IMG[slug][0], HERO_IMG[slug][1])}
       </div>
     </section>
-{trust_bar()}
-    <section class="section">
-      <div class="container">
-        <p class="eyebrow">How it works</p>
-        <h2>Simple, no-pressure process</h2>
-{steps()}
-      </div>
-    </section>
-    <section class="section bg-paper">
+    <section class="section bg-paper" id="work">
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
@@ -582,6 +597,15 @@ def build_service(slug, title, blurb, bullets):
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
 {door_video() if slug == "exterior-painting" else ""}
+      </div>
+    </section>
+{quote_section(quote_form(title, service=title))}
+{trust_bar()}
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">How it works</p>
+        <h2>Simple, no-pressure process</h2>
+{steps()}
       </div>
     </section>
     <section class="section">
@@ -621,19 +645,10 @@ def build_town(name, slug, county, line):
             <li>CT HIC # {HIC_TEXT}</li>
           </ul>
         </div>
-{quote_form(name + " town page", town=name)}
+{hero_photo("house-blue-front.jpg", "House painted by ANC Painting")}
       </div>
     </section>
-{trust_bar()}
-    <section class="section">
-      <div class="container prose">
-        <h2>Painting in {name}, the way it should be done</h2>
-        <p>ANC Painting is a family-owned painting company based in Coventry. We paint homes in {name} and nearby towns like {near}.</p>
-        <p>Every job starts the same way: a quick visit, a clear written quote, and a start date we stick to. We cover floors and furniture, do the prep that most painters skip, use Benjamin Moore paint, and clean up like we were never there.</p>
-        <p>Want a quote for your {name} home? Fill out the form or text us at <a href="sms:{PHONE}">{PHONE_DISPLAY}</a>. We'll text you two times that work for a quick look.</p>
-      </div>
-    </section>
-    <section class="section bg-paper">
+    <section class="section bg-paper" id="work">
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
@@ -641,6 +656,16 @@ def build_town(name, slug, county, line):
 {house_exterior()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
+      </div>
+    </section>
+{quote_section(quote_form(name + " town page", town=name))}
+{trust_bar()}
+    <section class="section">
+      <div class="container prose">
+        <h2>Painting in {name}, the way it should be done</h2>
+        <p>ANC Painting is a family-owned painting company based in Coventry. We paint homes in {name} and nearby towns like {near}.</p>
+        <p>Every job starts the same way: a quick visit, a clear written quote, and a start date we stick to. We cover floors and furniture, do the prep that most painters skip, use Benjamin Moore paint, and clean up like we were never there.</p>
+        <p>Want a quote for your {name} home? Fill out the form or text us at <a href="sms:{PHONE}">{PHONE_DISPLAY}</a>. We'll text you two times that work for a quick look.</p>
       </div>
     </section>
     <section class="section">
