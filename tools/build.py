@@ -295,6 +295,40 @@ def cabinet_process():
         <p class="ba-caption">The island, refinished in a deep gray. The oak cabinets on the left are what it looked like before.</p>
 """
 
+def photo_grid(items, title=""):
+    figs = "\n".join(f'          <figure><img src="/assets/{f}" alt="{esc(a)}" loading="lazy" width="1400" height="1050"><figcaption class="cap">{esc(c)}</figcaption></figure>' for f, c, a in items)
+    h = f'        <h3 style="margin-top:36px">{title}</h3>\n' if title else ""
+    return h + f'        <div class="gallery">\n{figs}\n        </div>\n'
+
+RECENT = [
+  ("kitchen-dark-cabinets.jpg", "Kitchen cabinets refinished", "Full kitchen of cabinets refinished in a deep charcoal with an island"),
+  ("loft-green-shiplap.jpg", "Loft & shiplap fireplace wall", "Loft with a green accent wall and shiplap fireplace surround, white trim"),
+  ("kitchen-white-cabinets.jpg", "White kitchen refresh", "Kitchen cabinets and island painted a clean white"),
+]
+KITCHENS = [
+  ("kitchen-dark-cabinets.jpg", "Charcoal kitchen", "Full kitchen of cabinets refinished in a deep charcoal"),
+  ("kitchen-dark-closeup.jpg", "Smooth sprayed finish", "Close-up of a smooth sprayed finish on charcoal cabinet doors and drawers"),
+  ("kitchen-white-cabinets.jpg", "White kitchen", "Kitchen cabinets and peninsula painted white"),
+  ("kitchen-white-wide.jpg", "White kitchen, full view", "Wide view of white painted kitchen cabinets, pantry and uppers"),
+]
+INTERIOR_MORE = [
+  ("loft-green-shiplap.jpg", "Loft & shiplap fireplace wall", "Loft with a green accent wall and shiplap fireplace surround"),
+  ("stairs-built-in-progress.jpg", "In progress: stairs & built-in", "Stair risers painted white and a built-in bench painted green, mid-job with edges taped"),
+  ("bedroom-after.jpg", "Bedroom & closets", "Bedroom with periwinkle walls and white trim"),
+]
+
+def door_video():
+    return """        <div class="video-block">
+          <video src="/assets/front-door.mp4" poster="/assets/front-door-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Video of a glossy red front door freshly painted"></video>
+          <div>
+            <p class="eyebrow">Doors</p>
+            <h3>A front door that shines</h3>
+            <p class="muted">Your front door is the first thing people see. We prep, sand and lay down a smooth, glossy finish that makes the whole house look cared for.</p>
+            <a href="#quoteFormWrap" class="btn btn-ghost">Get a door quote</a>
+          </div>
+        </div>
+"""
+
 GALLERY = [
   ("blackledge-golf-shop.jpg", "Golf shop at Blackledge Country Club in Hebron CT after exterior painting"),
   ("blackledge-gable.jpg", "Tall gable wall and window trim repainted at Blackledge Country Club, Hebron CT"),
@@ -425,9 +459,11 @@ def build_home():
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
 {interior_ba()}
+{photo_grid(RECENT, "Recent interiors &amp; kitchens")}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery()}
+{door_video()}
       </div>
     </section>
     <section class="section">
@@ -516,9 +552,12 @@ def build_service(slug, title, blurb, bullets):
         <h2>Before &amp; after</h2>
 {cabinet_process() if slug == "cabinet-refinishing" else interior_ba()}
 {bedroom_ba() if slug == "interior-painting" else ""}
+{photo_grid(INTERIOR_MORE, "More interior work") if slug == "interior-painting" else ""}
+{photo_grid(KITCHENS, "Finished kitchens") if slug == "cabinet-refinishing" else ""}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
+{door_video() if slug == "exterior-painting" else ""}
       </div>
     </section>
     <section class="section">
