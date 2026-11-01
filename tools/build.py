@@ -259,6 +259,17 @@ def before_after(caption=True):
 """
 
 
+def interior_ba():
+    items = [("living-room-before.jpg","Before","Living room before painting, with orange and cream walls and stained wood trim"),
+             ("living-room-prep.jpg","Prep","Same living room during prep: floors covered, walls patched and sanded smooth"),
+             ("living-room-after.jpg","After","Same living room after painting: soft blue walls and crisp white trim")]
+    figs = "\n".join(f'          <figure class="{"after" if l=="After" else ""}"><img src="/assets/{f}" alt="{esc(a)}" loading="lazy" width="1400" height="1050"><figcaption>{l}</figcaption></figure>' for f, l, a in items)
+    return f"""        <div class="ba ba-3">
+{figs}
+        </div>
+        <p class="ba-caption">Living room: dated orange walls and stained trim, patched and smoothed, then finished in a soft blue with the trim painted white.</p>
+"""
+
 GALLERY = [
   ("blackledge-golf-shop.jpg", "Golf shop at Blackledge Country Club in Hebron CT after exterior painting"),
   ("blackledge-gable.jpg", "Tall gable wall and window trim repainted at Blackledge Country Club, Hebron CT"),
@@ -388,6 +399,8 @@ def build_home():
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
+{interior_ba()}
+        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery()}
       </div>
@@ -476,6 +489,8 @@ def build_service(slug, title, blurb, bullets):
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
+{interior_ba()}
+        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
       </div>
@@ -533,6 +548,8 @@ def build_town(name, slug, county, line):
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
+{interior_ba()}
+        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
       </div>
     </section>
@@ -585,6 +602,8 @@ def build_about():
       <div class="container">
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
+{interior_ba()}
+        <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery()}
       </div>
