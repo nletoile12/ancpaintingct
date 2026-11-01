@@ -342,7 +342,17 @@ def oak_kitchen():
         <p class="ba-caption">Dated oak cabinets, fully masked so nothing else gets touched, primed, then finished in a clean white. Same kitchen, no remodel.</p>
 """
 
+def house_exterior():
+    return """        <h3>Exterior: colonial home</h3>
+        <div class="ba">
+          <figure class="after"><img src="/assets/house-blue-front.jpg" alt="Two-story colonial home with blue siding, white trim and black shutters after exterior painting" loading="lazy" width="1400" height="1050"><figcaption>Front</figcaption></figure>
+          <figure class="after"><img src="/assets/house-blue-back.jpg" alt="Back of the same blue colonial with white deck railings and lattice" loading="lazy" width="1400" height="1050"><figcaption>Back</figcaption></figure>
+        </div>
+        <p class="ba-caption">A full exterior on a Connecticut colonial: bold blue body, crisp white trim, windows and deck railings.</p>
+"""
+
 GALLERY = [
+  ("house-blue-side.jpg", "Side of a blue colonial home with white window trim after exterior painting"),
   ("blackledge-golf-shop.jpg", "Golf shop at Blackledge Country Club in Hebron CT after exterior painting"),
   ("blackledge-gable.jpg", "Tall gable wall and window trim repainted at Blackledge Country Club, Hebron CT"),
   ("blackledge-tavern.jpg", "Blackledge River Tavern exterior after painting, Hebron CT"),
@@ -473,6 +483,7 @@ def build_home():
         <h2>Before &amp; after</h2>
 {interior_ba()}
 {photo_grid(RECENT, "Recent interiors &amp; kitchens")}
+{house_exterior()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery()}
@@ -567,6 +578,7 @@ def build_service(slug, title, blurb, bullets):
 {bedroom_ba() if slug == "interior-painting" else ""}
 {photo_grid(INTERIOR_MORE, "More interior work") if slug == "interior-painting" else ""}
 {photo_grid(KITCHENS, "Finished kitchens") if slug == "cabinet-refinishing" else ""}
+{house_exterior()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery() if slug == "exterior-painting" else ""}
@@ -627,6 +639,7 @@ def build_town(name, slug, county, line):
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
 {interior_ba()}
+{house_exterior()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
       </div>
@@ -681,6 +694,7 @@ def build_about():
         <p class="eyebrow">Real work</p>
         <h2>Before &amp; after</h2>
 {interior_ba()}
+{house_exterior()}
         <h3 style="margin-top:36px">Exterior: Blackledge Country Club, Hebron</h3>
 {before_after()}
 {gallery()}
