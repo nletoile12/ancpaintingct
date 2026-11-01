@@ -267,7 +267,7 @@ def interior_ba():
     return f"""        <div class="ba ba-3">
 {figs}
         </div>
-        <p class="ba-caption">Living room: dated orange walls and stained trim, patched and smoothed, then finished in a soft blue with the trim painted white.</p>
+        <p class="ba-caption">Our own living room: dated orange walls and stained trim, patched and smoothed, then finished in a soft blue with the trim painted white. We hold your home to the same standard as ours.</p>
 """
 
 GALLERY = [
