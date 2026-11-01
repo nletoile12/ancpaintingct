@@ -348,7 +348,7 @@ def house_exterior():
           <figure class="after"><img src="/assets/house-blue-front.jpg" alt="Two-story colonial home with blue siding, white trim and black shutters after exterior painting" loading="lazy" width="1400" height="1050"><figcaption>Front</figcaption></figure>
           <figure class="after"><img src="/assets/house-blue-back.jpg" alt="Back of the same blue colonial with white deck railings and lattice" loading="lazy" width="1400" height="1050"><figcaption>Back</figcaption></figure>
         </div>
-        <p class="ba-caption">A full exterior on a Connecticut colonial: bold blue body, crisp white trim, windows and deck railings.</p>
+        <p class="ba-caption">A full exterior repaint on a Connecticut colonial: the whole body in a bold blue, with every piece of trim finished in crisp white.</p>
 """
 
 GALLERY = [
