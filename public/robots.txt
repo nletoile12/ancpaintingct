@@ -1,5 +1,2 @@
 User-agent: *
-Allow: /
-Disallow: /success/
-
-Sitemap: https://ancpaintingct.com/sitemap.xml
+Disallow: /

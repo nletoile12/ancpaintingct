@@ -104,7 +104,7 @@ def head(title, desc, path, noindex=False, extra=""):
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}">
   <link rel="canonical" href="{canon}">
-  {'<meta name="robots" content="noindex">' if noindex else ''}
+  {'<meta name="robots" content="noindex">' if (noindex or not HIC) else ''}
   <meta property="og:title" content="{esc(title)}">
   <meta property="og:description" content="{esc(desc)}">
   <meta property="og:url" content="{canon}">
@@ -632,7 +632,10 @@ def build_misc():
     urls = ["/", "/interior-painting/", "/exterior-painting/", "/cabinet-refinishing/", "/about/"] + [f"/{t[1]}-ct-painters/" for t in TOWNS]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in urls) + "\n</urlset>\n"
     write("/sitemap.xml", sm)
-    write("/robots.txt", f"User-agent: *\nAllow: /\nDisallow: /success/\n\nSitemap: {SITE}/sitemap.xml\n")
+    if HIC:
+        write("/robots.txt", f"User-agent: *\nAllow: /\nDisallow: /success/\n\nSitemap: {SITE}/sitemap.xml\n")
+    else:  # keep the site out of Google until the CT HIC number is on it
+        write("/robots.txt", "User-agent: *\nDisallow: /\n")
     write("/_redirects", "/success /success/ 301\n/thank-you /success/ 301\n/thank-you/ /success/ 301\n/thank-you.html /success/ 301\n")
     write("/_headers", '/assets/anc-painting.vcf\n  Content-Type: text/vcard; charset=utf-8\n  Content-Disposition: inline; filename="Nick - ANC Painting.vcf"\n')
     vcf = ["BEGIN:VCARD", "VERSION:3.0", "N:;Nick;;;", "FN:Nick - ANC Painting", f"ORG:{NAME}", f"TEL;TYPE=CELL,VOICE:{PHONE}"]
