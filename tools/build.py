@@ -16,7 +16,7 @@ LEGAL = "ANC Painting LLC"
 PHONE = "+14016606025"
 PHONE_DISPLAY = "(401) 660-6025"
 EMAIL = "nick@ancpaintingct.com"
-HIC = ""                         # e.g. "HIC.0712345" — REQUIRED before going live
+HIC = "HIC.0707650"                       # e.g. "HIC.0712345" — REQUIRED before going live
 GOOGLE_ADS_ID = ""               # e.g. "AW-123456789"
 GOOGLE_ADS_CONVERSION = ""       # e.g. "AW-123456789/AbCdEfGh" (quote form conversion)
 CLARITY_ID = ""                  # e.g. "abc123xyz"
@@ -153,7 +153,7 @@ def footer():
           <div class="footer-brand">A·N·C PAINTING</div>
           <p style="margin:6px 0 10px">Family-owned painting company · {HOME_TOWN}, CT</p>
           <a href="tel:{PHONE}">{PHONE_DISPLAY}</a>{email}
-          <p style="margin:10px 0 0">CT HIC # {HIC_TEXT}</p>
+          <p style="margin:10px 0 0">CT {HIC_TEXT}</p>
         </div>
         <div>
           <p style="margin:0 0 8px;color:#fff;font-weight:600">Services</p>
@@ -172,7 +172,7 @@ def footer():
           </div>
         </div>
       </div>
-      <p class="foot-legal">© {LEGAL} · CT HIC # {HIC_TEXT} · By submitting a quote request you agree to be contacted about your project. We never sell your info.</p>
+      <p class="foot-legal">© {LEGAL} · CT {HIC_TEXT} · By submitting a quote request you agree to be contacted about your project. We never sell your info.</p>
     </div>
   </footer>
 </body>
@@ -452,7 +452,7 @@ BASE_FAQ = [
     ("How long will my job take?", "It depends on the size of the job. We'll give you a realistic timeline with your quote, and then we stick to it."),
     ("Do I have to be home?", "For the quote visit, it helps if you're there so we can talk through what you want. During the work, you don't need to be home."),
     ("Where do you work?", "We're based in Coventry and paint across the greater Hartford and New Britain areas, from Mansfield and Tolland to West Hartford, Southington and Cromwell."),
-    ("Are you registered with the state?", f"Yes. ANC Painting is a registered Connecticut Home Improvement Contractor, CT HIC # {HIC_TEXT}."),
+    ("Are you registered with the state?", f"Yes. ANC Painting is a registered Connecticut Home Improvement Contractor, CT {HIC_TEXT}."),
 ]
 
 def write(path, content):
@@ -479,7 +479,7 @@ def build_home():
           <ul class="trust">
             <li>Free, no-pressure quotes</li>
             <li>Benjamin Moore paint</li>
-            <li>CT HIC # {HIC_TEXT}</li>
+            <li>CT {HIC_TEXT}</li>
           </ul>
         </div>
 {hero_photo("house-blue-front.jpg", "Connecticut colonial repainted blue with white trim by ANC Painting")}
@@ -578,7 +578,7 @@ def build_service(slug, title, blurb, bullets):
           <ul class="trust">
             <li>Free, no-pressure quotes</li>
             <li>Family-owned</li>
-            <li>CT HIC # {HIC_TEXT}</li>
+            <li>CT {HIC_TEXT}</li>
           </ul>
         </div>
 {hero_photo(HERO_IMG[slug][0], HERO_IMG[slug][1])}
@@ -642,7 +642,7 @@ def build_town(name, slug, county, line):
           <ul class="trust">
             <li>Free, no-pressure quotes</li>
             <li>Benjamin Moore paint</li>
-            <li>CT HIC # {HIC_TEXT}</li>
+            <li>CT {HIC_TEXT}</li>
           </ul>
         </div>
 {hero_photo("house-blue-front.jpg", "House painted by ANC Painting")}
@@ -706,7 +706,7 @@ def build_about():
           <ul class="trust">
             <li>Family-owned in Coventry</li>
             <li>Benjamin Moore paint</li>
-            <li>CT HIC # {HIC_TEXT}</li>
+            <li>CT {HIC_TEXT}</li>
           </ul>
         </div>
 {quote_form("About page")}
