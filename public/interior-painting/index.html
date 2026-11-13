@@ -281,9 +281,16 @@
                   <label>Tell us about the job
                     <textarea name="Details" id="details" placeholder="Example: living room and hallway, walls and trim, light gray"></textarea>
                   </label>
-                  <label>Photos of the area
-                    <input type="file" name="Photo" id="photo" accept="image/*">
+                  <label>Photos of the area <span class="photo-note">(up to 4)</span>
+                    <input type="file" id="photoPicker" accept="image/*" multiple>
                   </label>
+                  <p id="photoStatus" class="photo-status" aria-live="polite"></p>
+                  <div class="photo-slots" hidden>
+                    <input type="file" name="Photo1" class="photo-slot">
+                    <input type="file" name="Photo2" class="photo-slot">
+                    <input type="file" name="Photo3" class="photo-slot">
+                    <input type="file" name="Photo4" class="photo-slot">
+                  </div>
                 </div>
               </details>
               <label class="consent-row">

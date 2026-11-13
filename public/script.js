@@ -200,3 +200,91 @@
     if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
   });
 })();
+
+// Quote form photos: shrink phone photos before upload so the form stays under
+// Netlify's 8 MB limit, then place up to 4 into the Photo1..Photo4 fields.
+(function () {
+  var picker = document.getElementById('photoPicker');
+  var form = document.getElementById('quoteForm');
+  if (!picker || !form) return;
+  var slots = Array.prototype.slice.call(form.querySelectorAll('.photo-slot'));
+  var status = document.getElementById('photoStatus');
+  var submitBtn = document.getElementById('submitQuote');
+  var busy = false;
+  var MAX = 4, MAX_SIDE = 1600, BUDGET = 7 * 1024 * 1024;
+  var canMove = typeof DataTransfer === 'function';
+
+  function say(msg, bad) {
+    if (!status) return;
+    status.textContent = msg || '';
+    status.style.color = bad ? '#B42318' : '';
+  }
+
+  function shrink(file) {
+    return new Promise(function (resolve) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        var k = Math.min(1, MAX_SIDE / Math.max(w, h));
+        var c = document.createElement('canvas');
+        c.width = Math.round(w * k); c.height = Math.round(h * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) {
+          if (!b) return resolve(file);
+          var name = (file.name || 'photo').replace(/\.[^.]+$/, '') + '.jpg';
+          resolve(new File([b], name, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.8);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+
+  function clearSlots() {
+    slots.forEach(function (s) { s.value = ''; });
+  }
+
+  picker.addEventListener('change', function () {
+    var files = Array.prototype.slice.call(picker.files || []);
+    clearSlots();
+    if (!files.length) { say(''); return; }
+    var extra = files.length > MAX;
+    files = files.slice(0, MAX);
+
+    if (!canMove) {
+      // Old browser: send the picked file as-is if it is small enough.
+      var total = files.reduce(function (t, f) { return t + f.size; }, 0);
+      if (files.length === 1 && total < BUDGET) { picker.name = 'Photo1'; say('1 photo attached.'); }
+      else { picker.value = ''; say('Those photos are too large to send here. Please text them to us instead.', true); }
+      return;
+    }
+
+    busy = true;
+    if (submitBtn) submitBtn.disabled = true;
+    say('Preparing ' + files.length + (files.length === 1 ? ' photo…' : ' photos…'));
+    Promise.all(files.map(shrink)).then(function (small) {
+      var used = 0, kept = 0;
+      small.forEach(function (f, i) {
+        if (used + f.size > BUDGET) return;
+        var dt = new DataTransfer(); dt.items.add(f);
+        slots[kept].files = dt.files;
+        used += f.size; kept++;
+      });
+      picker.value = '';
+      var msg = kept + (kept === 1 ? ' photo attached.' : ' photos attached.');
+      if (extra || kept < files.length) msg += ' (Only the first ' + kept + ' fit. Text us any others.)';
+      say(msg, kept === 0);
+    }).catch(function () {
+      say('Couldn’t attach those photos. Please text them to us instead.', true);
+    }).then(function () {
+      busy = false;
+      if (submitBtn) submitBtn.disabled = false;
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    if (busy) { e.preventDefault(); say('Still preparing your photos, one second…'); }
+  });
+})();
